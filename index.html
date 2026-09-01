@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عکس‌ساز هوش مصنوعی</title>
+    <style>
+        body { background-color: #121212; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        textarea { width: 90%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #444; background: #222; color: white; font-size: 16px; }
+        button { width: 95%; padding: 15px; margin-top: 15px; background-color: #007aff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        #loading { display: none; color: #ff9500; margin-top: 15px; font-weight: bold; }
+        img { width: 95%; max-width: 500px; margin-top: 20px; border-radius: 12px; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+
+    <h2>ربات عکس‌ساز هوش مصنوعی 🎨</h2>
+    <p>متن خود را به انگلیسی بنویسید:</p>
+    
+    <textarea id="myText" placeholder="مثال: a beautiful red car in winter..."></textarea>
+    <br>
+    <button onclick="makeImage()">✨ خلق تصویر</button>
+    
+    <div id="loading">⏳ هوش مصنوعی در حال ساخت عکس شماست...</div>
+    <br>
+    <img id="myImage" src="" alt="تصویر ساخته شده">
+
+    <script>
+        function makeImage() {
+            var textValue = document.getElementById("myText").value.trim();
+            var loadingDiv = document.getElementById("loading");
+            var imageElement = document.getElementById("myImage");
+
+            if (textValue === "") {
+                alert("لطفاً ابتدا متنی بنویسید!");
+                return;
+            }
+
+            loadingDiv.style.display = "block";
+            imageElement.style.display = "none";
+
+            var randomSeed = Math.floor(Math.random() * 999999);
+            var finalUrl = "https://pollinations.ai" + encodeURIComponent(textValue) + "?width=512&height=512&seed=" + randomSeed + "&model=flux";
+
+            imageElement.src = finalUrl;
+
+            imageElement.onload = function() {
+                loadingDiv.style.display = "none";
+                imageElement.style.display = "inline-block";
+            };
+
+            imageElement.onerror = function() {
+                loadingDiv.style.display = "none";
+                alert("خطا در ساخت عکس! دوباره تلاش کنید.");
+            };
+        }
+    </script>
+</body>
+</html>
